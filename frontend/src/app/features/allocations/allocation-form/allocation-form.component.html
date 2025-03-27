@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="header">
+    <h1>{{ isEditMode ? 'Edit Allocation' : 'Add Allocation' }}</h1>
+    <button mat-raised-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon> Back
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="isLoading" class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <form *ngIf="!isLoading" [formGroup]="allocationForm" (ngSubmit)="submitForm()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Developer</mat-label>
+            <mat-select formControlName="developer_id" required [disabled]="isEditMode">
+              <mat-option *ngFor="let developer of developers" [value]="developer.id">
+                {{ developer.name }} ({{ developer.role }})
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="allocationForm.get('developer_id')?.hasError('required')">
+              Developer is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Project</mat-label>
+            <mat-select formControlName="project_id" required [disabled]="isEditMode">
+              <mat-option *ngFor="let project of projects" [value]="project.id">
+                {{ project.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="allocationForm.get('project_id')?.hasError('required')">
+              Project is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row date-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="start_date" required>
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+            <mat-error *ngIf="allocationForm.get('start_date')?.hasError('required')">
+              Start date is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="end_date" required>
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+            <mat-error *ngIf="allocationForm.get('end_date')?.hasError('required')">
+              End date is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Allocation Percentage</mat-label>
+            <input matInput type="number" formControlName="allocation_percentage" min="1" max="100" required>
+            <span matSuffix>%</span>
+            <mat-error *ngIf="allocationForm.get('allocation_percentage')?.hasError('required')">
+              Allocation percentage is required
+            </mat-error>
+            <mat-error *ngIf="allocationForm.get('allocation_percentage')?.hasError('min') || allocationForm.get('allocation_percentage')?.hasError('max')">
+              Percentage must be between 1% and 100%
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="showOverallocationWarning" class="allocation-warning">
+          <mat-icon color="warn">warning</mat-icon>
+          <span>Warning: Developer will be overallocated during this period.</span>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="allocationForm.invalid || isSubmitting">
+            {{ isEditMode ? 'Update' : 'Create' }}
+          </button>
+          <button mat-button type="button" (click)="resetForm()">
+            Reset
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

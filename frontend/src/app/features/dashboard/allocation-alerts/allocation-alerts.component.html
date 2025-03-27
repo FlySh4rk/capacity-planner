@@ -1,0 +1,50 @@
+<div class="alerts-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  
+  <div *ngIf="!loading && errorMessage" class="error-message">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && endingAllocations.length === 0" class="no-data">
+    <p>No allocation alerts in the next {{ daysAhead }} days</p>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && endingAllocations.length > 0">
+    <div class="alerts-header">
+      <span>Allocations ending in the next {{ daysAhead }} days</span>
+    </div>
+    
+    <mat-list>
+      <mat-list-item *ngFor="let allocation of endingAllocations" class="alert-item">
+        <div class="alert-content">
+          <div class="alert-main">
+            <div class="alert-icon" [ngClass]="getAlertSeverityClass(allocation)">
+              <mat-icon>{{ getAlertIcon(allocation) }}</mat-icon>
+            </div>
+            <div class="alert-details">
+              <span class="developer-name">{{ allocation.developer_name }}</span>
+              <span class="project-name">{{ allocation.project_name }}</span>
+            </div>
+          </div>
+          <div class="alert-days">
+            <span>{{ allocation.days_remaining }} days</span>
+          </div>
+          <div class="alert-actions">
+            <button mat-icon-button [routerLink]="['/allocations', allocation.allocation_id, 'edit']" 
+                    matTooltip="Edit allocation">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button [routerLink]="['/developers', allocation.developer_id]" 
+                    matTooltip="View developer">
+              <mat-icon>person</mat-icon>
+            </button>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="availability-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  
+  <div *ngIf="!loading && errorMessage" class="error-message">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && availabilityData.length === 0" class="no-data">
+    <p>No developer availability data</p>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && availabilityData.length > 0">
+    <div class="date-filter">
+      <mat-form-field appearance="outline">
+        <mat-label>Availability Period</mat-label>
+        <mat-select [(value)]="selectedPeriod" (selectionChange)="onPeriodChange()">
+          <mat-option value="1w">Next Week</mat-option>
+          <mat-option value="2w">Next 2 Weeks</mat-option>
+          <mat-option value="1m">Next Month</mat-option>
+          <mat-option value="3m">Next 3 Months</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <div class="availability-list">
+      <div class="availability-header">
+        <div class="developer-name-header">Developer</div>
+        <div class="availability-percent-header">Available</div>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="availability-item" *ngFor="let developer of availabilityData">
+        <div class="developer-name">{{ developer.name }}</div>
+        <div class="availability-bar-container">
+          <div class="availability-bar">
+            <div 
+              class="availability-progress" 
+              [style.width.%]="developer.available_percentage"
+              [ngClass]="getAvailabilityClass(developer.available_percentage)">
+            </div>
+          </div>
+          <div class="availability-percent">{{ developer.available_percentage }}%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

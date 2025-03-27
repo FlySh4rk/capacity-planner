@@ -1,0 +1,97 @@
+.alerts-container {
+  height: 100%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #f44336;
+  
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #757575;
+}
+
+.alerts-header {
+  padding: 8px 0;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #616161;
+}
+
+.alert-item {
+  height: auto !important;
+  padding: 8px 0;
+}
+
+.alert-content {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alert-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.alert-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.alert-icon.high {
+  color: #f44336;
+}
+
+.alert-icon.medium {
+  color: #ff9800;
+}
+
+.alert-icon.low {
+  color: #4caf50;
+}
+
+.alert-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.developer-name {
+  font-weight: 500;
+}
+
+.project-name {
+  font-size: 0.85rem;
+  color: #616161;
+}
+
+.alert-days {
+  margin-right: 16px;
+  font-weight: 500;
+}
+
+.alert-actions {
+  display: flex;
+}

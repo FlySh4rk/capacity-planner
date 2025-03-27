@@ -1,0 +1,52 @@
+<div class="container">
+  <h1>Dashboard</h1>
+  
+  <div class="dashboard-grid">
+    <!-- Developer workload chart -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Developer Workload</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-workload-chart></app-workload-chart>
+      </mat-card-content>
+    </mat-card>
+    
+    <!-- Technology usage chart -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Technology Usage</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-technology-chart></app-technology-chart>
+      </mat-card-content>
+    </mat-card>
+    
+    <!-- Ending allocations / alerts -->
+    <mat-card class="dashboard-card alerts-card">
+      <mat-card-header>
+        <mat-card-title>
+          Allocation Alerts
+        </mat-card-title>
+        <div class="alert-settings">
+          <button mat-icon-button (click)="openAlertSettings()" matTooltip="Alert Settings">
+            <mat-icon>settings</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <app-allocation-alerts [daysAhead]="alertDaysAhead"></app-allocation-alerts>
+      </mat-card-content>
+    </mat-card>
+    
+    <!-- Developer availability -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Developer Availability</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-developer-availability></app-developer-availability>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

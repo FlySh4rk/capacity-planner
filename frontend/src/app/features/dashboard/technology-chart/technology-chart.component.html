@@ -1,0 +1,47 @@
+<div class="chart-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  
+  <div *ngIf="!loading && errorMessage" class="error-message">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && technologyData.length === 0" class="no-data">
+    <p>No technology data available</p>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && technologyData.length > 0">
+    <div class="chart-type-toggle">
+      <mat-button-toggle-group [value]="currentChartType" (change)="onChartTypeChange($event.value)">
+        <mat-button-toggle value="pie">Pie Chart</mat-button-toggle>
+        <mat-button-toggle value="bar">Bar Chart</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    
+    <div *ngIf="currentChartType === 'pie'" class="chart">
+      <ngx-charts-advanced-pie-chart
+        [results]="technologyData"
+        [scheme]="colorScheme"
+        [gradient]="false"
+        [animations]="true">
+      </ngx-charts-advanced-pie-chart>
+    </div>
+    
+    <div *ngIf="currentChartType === 'bar'" class="chart">
+      <ngx-charts-bar-vertical
+        [results]="technologyData"
+        [scheme]="colorScheme"
+        [gradient]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxisLabel]="'Technology'"
+        [yAxisLabel]="'Developers'"
+        [animations]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</div>

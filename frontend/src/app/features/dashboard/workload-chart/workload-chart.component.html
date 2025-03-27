@@ -1,0 +1,29 @@
+<div class="chart-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  
+  <div *ngIf="!loading && errorMessage" class="error-message">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && workloadData.length === 0" class="no-data">
+    <p>No workload data available</p>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage && workloadData.length > 0" class="chart">
+    <ngx-charts-horizontal-bar-chart
+      [results]="workloadData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [showDataLabel]="true"
+      [showXAxisLabel]="true"
+      [xAxisLabel]="'Allocation %'"
+      [xScaleMax]="100"
+      [customColors]="customColors"
+      [scheme]="colorScheme"
+      [animations]="true">
+    </ngx-charts-horizontal-bar-chart>
+  </div>
+</div>

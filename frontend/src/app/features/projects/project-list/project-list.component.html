@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="header">
+    <h1>Projects</h1>
+    <button mat-raised-button color="primary" (click)="addProject()">
+      <mat-icon>add</mat-icon> Add Project
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="filter-bar">
+        <mat-form-field appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search by name" (keyup)="applyFilter($event)">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-checkbox color="primary" [checked]="showActiveOnly" (change)="toggleActiveFilter($event)">
+          Show active projects only
+        </mat-checkbox>
+      </div>
+
+      <div *ngIf="isLoading" class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <div class="table-container" *ngIf="!isLoading">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let project"> {{project.name}} </td>
+          </ng-container>
+
+          <!-- Start Date Column -->
+          <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+            <td mat-cell *matCellDef="let project"> {{project.start_date | date}} </td>
+          </ng-container>
+
+          <!-- End Date Column -->
+          <ng-container matColumnDef="endDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+            <td mat-cell *matCellDef="let project"> 
+              {{project.end_date ? (project.end_date | date) : 'Ongoing'}}
+            </td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let project">
+              <span [ngClass]="{'status-active': project.is_active, 'status-inactive': !project.is_active}">
+                {{project.is_active ? 'Active' : 'Inactive'}}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let project">
+              <button mat-icon-button color="primary" (click)="viewProject(project)" matTooltip="View details">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button color="accent" (click)="editProject(project)" matTooltip="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteProject(project)" matTooltip="Delete">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">No projects found</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

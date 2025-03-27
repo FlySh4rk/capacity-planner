@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ data.skill.id ? 'Edit Skill' : 'Add Skill' }}</h2>
+
+<form [formGroup]="skillForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="skillForm.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <input matInput formControlName="category" required>
+        <mat-error *ngIf="skillForm.get('category')?.hasError('required')">
+          Category is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="skillForm.invalid">
+      {{ data.skill.id ? 'Update' : 'Create' }}
+    </button>
+  </mat-dialog-actions>
+</form>

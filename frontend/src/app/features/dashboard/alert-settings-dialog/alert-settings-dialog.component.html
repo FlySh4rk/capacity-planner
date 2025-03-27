@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Alert Settings</h2>
+
+<mat-dialog-content>
+  <p>Set the number of days to look ahead for allocation alerts.</p>
+  
+  <div class="settings-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Days Ahead</mat-label>
+      <input matInput type="number" [(ngModel)]="data.daysAhead" min="1" max="90">
+      <mat-hint>Value between 1-90 days</mat-hint>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="data.daysAhead < 1 || data.daysAhead > 90">
+    Save
+  </button>
+</mat-dialog-actions>

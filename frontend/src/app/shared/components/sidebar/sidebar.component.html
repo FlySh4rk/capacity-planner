@@ -1,0 +1,24 @@
+<div class="sidebar" [class.expanded]="isExpanded">
+  <mat-nav-list>
+    <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+      <mat-icon>dashboard</mat-icon>
+      <span *ngIf="isExpanded">Dashboard</span>
+    </a>
+    <a mat-list-item routerLink="/developers" routerLinkActive="active">
+      <mat-icon>people</mat-icon>
+      <span *ngIf="isExpanded">Developers</span>
+    </a>
+    <a mat-list-item routerLink="/skills" routerLinkActive="active">
+      <mat-icon>build</mat-icon>
+      <span *ngIf="isExpanded">Skills</span>
+    </a>
+    <a mat-list-item routerLink="/projects" routerLinkActive="active">
+      <mat-icon>work</mat-icon>
+      <span *ngIf="isExpanded">Projects</span>
+    </a>
+    <a mat-list-item routerLink="/allocations" routerLinkActive="active">
+      <mat-icon>assignment</mat-icon>
+      <span *ngIf="isExpanded">Allocations</span>
+    </a>
+  </mat-nav-list>
+</div>
