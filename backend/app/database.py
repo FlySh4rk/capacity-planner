@@ -11,18 +11,15 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db/capacity_planning")
 print(f"DEBUG: Connessione al database con URL: {DATABASE_URL}")
 
-# Crea il motore SQLAlchemy con echo=True per debug
-engine = create_engine(DATABASE_URL, echo=True)
+# Crea il motore SQLAlchemy
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
 def get_db():
-    print("DEBUG: Apertura connessione al database")
     db = SessionLocal()
     try:
         yield db
-        print("DEBUG: Commit della sessione")
     finally:
-        print("DEBUG: Chiusura connessione al database")
         db.close()

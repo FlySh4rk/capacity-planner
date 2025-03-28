@@ -29,7 +29,7 @@ class AllocationInfo(BaseModel):
     allocation_percentage: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class DeveloperResponse(DeveloperBase):
     id: int
@@ -37,4 +37,4 @@ class DeveloperResponse(DeveloperBase):
     allocations: List[AllocationInfo] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

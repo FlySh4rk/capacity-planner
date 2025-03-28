@@ -6,38 +6,30 @@ from app.database import get_db
 from app.models.skill import Skill
 from app.schemas.skill import SkillCreate, SkillUpdate, SkillResponse
 
-# IMPORTANTE: Definiamo il router SENZA prefisso
 router = APIRouter()
 
-# IMPORTANTE: Definiamo esplicitamente i percorsi completi
+@router.get("/skills", response_model=List[SkillResponse])
+def get_skills(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    skills = db.query(Skill).offset(skip).limit(limit).all()
+    return skills
+
+@router.get("/skills/{skill_id}", response_model=SkillResponse)
+def get_skill(skill_id: int, db: Session = Depends(get_db)):
+    skill = db.query(Skill).filter(Skill.id == skill_id).first()
+    if skill is None:
+        raise HTTPException(status_code=404, detail="Skill not found")
+    return skill
 
 @router.post("/skills", response_model=SkillResponse, status_code=status.HTTP_201_CREATED)
 def create_skill(skill: SkillCreate, db: Session = Depends(get_db)):
-    """Crea una nuova skill"""
-    print(f"DEBUG: Creating skill: {skill}")
     db_skill = Skill(name=skill.name, category=skill.category)
     db.add(db_skill)
     db.commit()
     db.refresh(db_skill)
     return db_skill
 
-@router.get("/skills", response_model=List[SkillResponse])
-def get_skills(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    """Ottiene tutte le skills"""
-    skills = db.query(Skill).offset(skip).limit(limit).all()
-    return skills
-
-@router.get("/skills/{skill_id}", response_model=SkillResponse)
-def get_skill(skill_id: int, db: Session = Depends(get_db)):
-    """Ottiene una skill specifica per ID"""
-    skill = db.query(Skill).filter(Skill.id == skill_id).first()
-    if skill is None:
-        raise HTTPException(status_code=404, detail="Skill not found")
-    return skill
-
 @router.put("/skills/{skill_id}", response_model=SkillResponse)
 def update_skill(skill_id: int, skill_update: SkillUpdate, db: Session = Depends(get_db)):
-    """Aggiorna una skill esistente"""
     db_skill = db.query(Skill).filter(Skill.id == skill_id).first()
     if db_skill is None:
         raise HTTPException(status_code=404, detail="Skill not found")
@@ -53,7 +45,6 @@ def update_skill(skill_id: int, skill_update: SkillUpdate, db: Session = Depends
 
 @router.delete("/skills/{skill_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_skill(skill_id: int, db: Session = Depends(get_db)):
-    """Elimina una skill"""
     db_skill = db.query(Skill).filter(Skill.id == skill_id).first()
     if db_skill is None:
         raise HTTPException(status_code=404, detail="Skill not found")

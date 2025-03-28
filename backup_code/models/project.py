@@ -10,7 +10,7 @@ class Project(Base):
     name = Column(String, index=True)
     description = Column(Text)
     start_date = Column(DateTime, default=datetime.utcnow)
-    end_date = Column(DateTime, nullable=True)
+    end_date = Column(DateTime)
     is_active = Column(Boolean, default=True)
     
     # Relationships

@@ -11,7 +11,7 @@ class Allocation(Base):
     project_id = Column(Integer, ForeignKey("projects.id"))
     start_date = Column(DateTime, default=datetime.utcnow)
     end_date = Column(DateTime)
-    allocation_percentage = Column(Float, default=100.0)
+    allocation_percentage = Column(Float, default=100.0)  # Percentuale di tempo allocato
     
     # Relationships
     developer = relationship("Developer", back_populates="allocations")

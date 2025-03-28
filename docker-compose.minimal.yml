@@ -13,25 +13,13 @@ services:
       - "5432:5432"
     networks:
       - capacity-planning-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   backend:
     build:
       context: .
-      dockerfile: docker/backend/Dockerfile
+      dockerfile: docker/backend/Dockerfile.minimal
     container_name: capacity-planning-backend
     restart: always
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db/capacity_planning
-      - LOAD_SAMPLE_DATA=false
-    volumes:
-      - ./backend:/app
     ports:
       - "8000:8000"
     networks:

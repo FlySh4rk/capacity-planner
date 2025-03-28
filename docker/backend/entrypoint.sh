@@ -1,28 +1,32 @@
 #!/bin/bash
 set -e
 
-# Function to wait for PostgreSQL to be ready
-wait_for_postgres() {
-  echo "Waiting for PostgreSQL..."
-  while ! pg_isready -h db -p 5432 -U postgres > /dev/null 2>&1; do
-    sleep 1
-  done
-  echo "PostgreSQL is ready!"
-}
+echo "=== entrypoint.sh avviato ==="
 
-# Wait for the database to be ready
-wait_for_postgres
-
-# Initialize the database and create the tables
-echo "Initializing database..."
-python -c "from app.database import Base, engine; Base.metadata.create_all(bind=engine)"
-
-# Check if we should load sample data
-if [ "$LOAD_SAMPLE_DATA" = "true" ]; then
-  echo "Loading sample data..."
-  # [contenuto del caricamento dati...]
+# Verifica comando pg_isready
+if command -v pg_isready >/dev/null 2>&1; then
+  echo "pg_isready è disponibile"
+else
+  echo "pg_isready non è disponibile, installazione di postgresql-client"
+  apt-get update && apt-get install -y postgresql-client
 fi
 
-# Start the application
-echo "Starting FastAPI application with no-redirect..."
-exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-redirect
+# Funzione per attendere che PostgreSQL sia pronto
+wait_for_postgres() {
+  echo "Attesa avvio PostgreSQL..."
+  until pg_isready -h db -p 5432 -U postgres; do
+    echo "PostgreSQL non pronto - attesa..."
+    sleep 2
+  done
+  echo "PostgreSQL è pronto!"
+}
+
+# Attendi che il database sia pronto
+wait_for_postgres
+
+echo "Inizializzazione del database..."
+python -c "from app.database import Base, engine; Base.metadata.create_all(bind=engine)"
+
+echo "Avvio dell'applicazione FastAPI..."
+cd /app
+exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

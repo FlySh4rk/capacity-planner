@@ -11,24 +11,6 @@ from app.helpers import add_project_names_to_developer
 
 router = APIRouter()
 
-@router.post("/developers", response_model=DeveloperResponse, status_code=status.HTTP_201_CREATED)
-def create_developer(developer: DeveloperCreate, db: Session = Depends(get_db)):
-    db_developer = Developer(
-        name=developer.name,
-        email=developer.email,
-        role=developer.role
-    )
-    
-    # Add skills
-    if developer.skill_ids:
-        skills = db.query(Skill).filter(Skill.id.in_(developer.skill_ids)).all()
-        db_developer.skills = skills
-    
-    db.add(db_developer)
-    db.commit()
-    db.refresh(db_developer)
-    return db_developer
-
 @router.get("/developers", response_model=List[DeveloperResponse])
 def get_developers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     developers = db.query(Developer).offset(skip).limit(limit).all()
@@ -51,6 +33,24 @@ def get_developer(developer_id: int, db: Session = Depends(get_db)):
     developer = add_project_names_to_developer(developer, db)
     
     return developer
+
+@router.post("/developers", response_model=DeveloperResponse, status_code=status.HTTP_201_CREATED)
+def create_developer(developer: DeveloperCreate, db: Session = Depends(get_db)):
+    db_developer = Developer(
+        name=developer.name,
+        email=developer.email,
+        role=developer.role
+    )
+    
+    # Add skills
+    if developer.skill_ids:
+        skills = db.query(Skill).filter(Skill.id.in_(developer.skill_ids)).all()
+        db_developer.skills = skills
+    
+    db.add(db_developer)
+    db.commit()
+    db.refresh(db_developer)
+    return db_developer
 
 @router.put("/developers/{developer_id}", response_model=DeveloperResponse)
 def update_developer(developer_id: int, developer_update: DeveloperUpdate, db: Session = Depends(get_db)):
