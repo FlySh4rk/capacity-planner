@@ -8,12 +8,12 @@ from app.schemas.skill import SkillCreate, SkillUpdate, SkillResponse
 
 router = APIRouter()
 
-@router.get("/skills", response_model=List[SkillResponse])
+@router.get("/api//skills", response_model=List[SkillResponse])
 def get_skills(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     skills = db.query(Skill).offset(skip).limit(limit).all()
     return skills
 
-@router.get("/skills/{skill_id}", response_model=SkillResponse)
+@router.get("/api//skills/{skill_id}", response_model=SkillResponse)
 def get_skill(skill_id: int, db: Session = Depends(get_db)):
     skill = db.query(Skill).filter(Skill.id == skill_id).first()
     if skill is None:

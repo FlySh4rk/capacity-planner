@@ -11,7 +11,7 @@ from app.schemas.allocation import AllocationCreate, AllocationUpdate, Allocatio
 
 router = APIRouter()
 
-@router.get("/allocations", response_model=List[AllocationResponse])
+@router.get("/api//allocations", response_model=List[AllocationResponse])
 def get_allocations(
     skip: int = 0, 
     limit: int = 100, 
@@ -49,7 +49,7 @@ def get_allocations(
     
     return allocations
 
-@router.get("/allocations/{allocation_id}", response_model=AllocationResponse)
+@router.get("/api//allocations/{allocation_id}", response_model=AllocationResponse)
 def get_allocation(allocation_id: int, db: Session = Depends(get_db)):
     # Query allocation with joined info
     result = db.query(

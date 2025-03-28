@@ -1,23 +1,23 @@
 #!/bin/bash
 
-echo "=== Script di debug risposta API ==="
+# Script per correggere l'errore di sintassi nel backend FastAPI
 
-# Verifica le risposte API
-echo "1. Verifica risposta API developers:"
-curl -s http://localhost:8000/developers | jq '.'
+# Verifica che il file main.py esista
+if [ ! -f "backend/app/main.py" ]; then
+    echo "ERRORE: File backend/app/main.py non trovato"
+    exit 1
+fi
 
-echo "2. Verifica risposta API skills:"
-curl -s http://localhost:8000/skills | jq '.'
+# Correggi la riga con l'errore
+sed -i 's/app = FastAPI(root_path="\/api",root_path="\/api",root_path="\/api"title="Capacity Planning API")/app = FastAPI(root_path="\/api", title="Capacity Planning API")/g' backend/app/main.py
 
-echo "3. Verifica risposta API projects:"
-curl -s http://localhost:8000/projects | jq '.'
-
-echo "4. Verifica risposta API allocations:"
-curl -s http://localhost:8000/allocations | jq '.'
-
-# Ora controlliamo il formato atteso confrontando con il nostro backend minimal che funzionava
-echo "5. Confronto con il formato del backend minimal:"
-echo "Risposta minimal developers:"
-cat backend/minimal_backend.py | grep -A 10 "get_developers" | grep -A 8 "return"
-
-echo "6. Correzione formati API se necessario..."
+# Verifica che la modifica sia stata applicata
+if grep -q 'app = FastAPI(root_path="/api", title="Capacity Planning API")' backend/app/main.py; then
+    echo "Correzione applicata con successo!"
+    echo "Riavvio i container..."
+    docker compose down
+    docker compose up -d
+else
+    echo "ERRORE: Correzione non riuscita, verifica manualmente il file backend/app/main.py"
+    exit 1
+fi

@@ -8,7 +8,7 @@ from app.routers import skills, developers, projects, allocations, reports
 # Create tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Capacity Planning API")
+app = FastAPI(root_path="/api", title="Capacity Planning API")
 
 # CORS middleware
 app.add_middleware(

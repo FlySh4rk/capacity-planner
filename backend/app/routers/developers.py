@@ -11,7 +11,7 @@ from app.helpers import add_project_names_to_developer
 
 router = APIRouter()
 
-@router.get("/developers", response_model=List[DeveloperResponse])
+@router.get("/api//developers", response_model=List[DeveloperResponse])
 def get_developers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     developers = db.query(Developer).offset(skip).limit(limit).all()
     
@@ -23,7 +23,7 @@ def get_developers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
     
     return result_developers
 
-@router.get("/developers/{developer_id}", response_model=DeveloperResponse)
+@router.get("/api//developers/{developer_id}", response_model=DeveloperResponse)
 def get_developer(developer_id: int, db: Session = Depends(get_db)):
     developer = db.query(Developer).filter(Developer.id == developer_id).first()
     if developer is None:

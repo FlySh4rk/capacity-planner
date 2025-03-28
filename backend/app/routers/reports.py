@@ -12,7 +12,7 @@ from app.models.skill import Skill
 
 router = APIRouter()
 
-@router.get("/reports/developer-workload")
+@router.get("/api//reports/developer-workload")
 def get_developer_workload(db: Session = Depends(get_db)):
     """Get workload for each developer based on current allocations."""
     
@@ -56,7 +56,7 @@ def get_developer_workload(db: Session = Depends(get_db)):
     
     return result
 
-@router.get("/reports/technology-usage")
+@router.get("/api//reports/technology-usage")
 def get_technology_usage(db: Session = Depends(get_db)):
     """Get count of developers by skill/technology."""
     
@@ -86,7 +86,7 @@ def get_technology_usage(db: Session = Depends(get_db)):
     
     return result
 
-@router.get("/reports/ending-allocations")
+@router.get("/api//reports/ending-allocations")
 def get_ending_allocations(days_ahead: int = Query(14, description="Number of days to look ahead"), db: Session = Depends(get_db)):
     """Get allocations ending within the specified number of days."""
     
@@ -124,7 +124,7 @@ def get_ending_allocations(days_ahead: int = Query(14, description="Number of da
     
     return result
 
-@router.get("/reports/developer-availability")
+@router.get("/api//reports/developer-availability")
 def get_developer_availability(
     start_date: datetime = None, 
     end_date: datetime = None,

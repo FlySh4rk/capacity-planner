@@ -8,12 +8,12 @@ from app.schemas.project import ProjectCreate, ProjectUpdate, ProjectResponse
 
 router = APIRouter()
 
-@router.get("/projects", response_model=List[ProjectResponse])
+@router.get("/api//projects", response_model=List[ProjectResponse])
 def get_projects(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     projects = db.query(Project).offset(skip).limit(limit).all()
     return projects
 
-@router.get("/projects/{project_id}", response_model=ProjectResponse)
+@router.get("/api//projects/{project_id}", response_model=ProjectResponse)
 def get_project(project_id: int, db: Session = Depends(get_db)):
     project = db.query(Project).filter(Project.id == project_id).first()
     if project is None:
