@@ -9,9 +9,9 @@ from app.models.developer import Developer
 from app.models.project import Project
 from app.schemas.allocation import AllocationCreate, AllocationUpdate, AllocationResponse
 
-router = APIRouter(prefix="/allocations", tags=["allocations"])
+router = APIRouter()
 
-@router.post("/", response_model=AllocationResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/allocations", response_model=AllocationResponse, status_code=status.HTTP_201_CREATED)
 def create_allocation(allocation: AllocationCreate, db: Session = Depends(get_db)):
     # Check if developer exists
     developer = db.query(Developer).filter(Developer.id == allocation.developer_id).first()
@@ -45,7 +45,7 @@ def create_allocation(allocation: AllocationCreate, db: Session = Depends(get_db
     
     return response
 
-@router.get("/", response_model=List[AllocationResponse])
+@router.get("/allocations", response_model=List[AllocationResponse])
 def get_allocations(
     skip: int = 0, 
     limit: int = 100, 
@@ -83,7 +83,7 @@ def get_allocations(
     
     return allocations
 
-@router.get("/{allocation_id}", response_model=AllocationResponse)
+@router.get("/allocations/{allocation_id}", response_model=AllocationResponse)
 def get_allocation(allocation_id: int, db: Session = Depends(get_db)):
     # Query allocation with joined info
     result = db.query(
@@ -106,7 +106,7 @@ def get_allocation(allocation_id: int, db: Session = Depends(get_db)):
     
     return allocation_dict
 
-@router.put("/{allocation_id}", response_model=AllocationResponse)
+@router.put("/allocations/{allocation_id}", response_model=AllocationResponse)
 def update_allocation(allocation_id: int, allocation_update: AllocationUpdate, db: Session = Depends(get_db)):
     # Get allocation with joined info
     result = db.query(
@@ -142,7 +142,7 @@ def update_allocation(allocation_id: int, allocation_update: AllocationUpdate, d
     
     return allocation_dict
 
-@router.delete("/{allocation_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/allocations/{allocation_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_allocation(allocation_id: int, db: Session = Depends(get_db)):
     db_allocation = db.query(Allocation).filter(Allocation.id == allocation_id).first()
     if db_allocation is None:

@@ -54,7 +54,7 @@ services:
 
 networks:
   capacity-planning-network:
-    external: true
+    external: false
 
 volumes:
   postgres_data:

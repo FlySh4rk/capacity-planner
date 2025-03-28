@@ -10,5 +10,5 @@ class Skill(Base):
     name = Column(String, unique=True, index=True)
     category = Column(String)
     
-    # Relationships
+    # Relationship - relazione bidirezionale
     developers = relationship("Developer", secondary=developer_skill, back_populates="skills")
