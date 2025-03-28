@@ -9,5 +9,5 @@ class ProjectManager(Base):
     name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     
-    # Relationships
-    allocations = relationship("Allocation", back_populates="project_manager")
+    # Commentiamo la relazione problematica
+    # allocations = relationship("Allocation", back_populates="project_manager")

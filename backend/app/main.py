@@ -3,12 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.database import Base, engine
-from app.routers.skills import router as skills_router
-from app.routers.developers import router as developers_router
-from app.routers.projects import router as projects_router
-from app.routers.project_managers import router as project_managers_router
-from app.routers.allocations import router as allocations_router
-from app.routers.reports import router as reports_router
+from app.routers import skills, developers, projects, allocations, reports
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -25,14 +20,13 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(skills_router)
-app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(developers_router)
-app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(projects_router)
-app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(project_managers_router)
-app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(allocations_router)
-app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(reports_router)
-app.include_router(project_managers.router)    app.include_router(project_managers.router)
-app.include_router(project_managers.router)@app.get("/")
+app.include_router(skills.router)
+app.include_router(developers.router)
+app.include_router(projects.router)
+app.include_router(allocations.router)
+app.include_router(reports.router)
+
+@app.get("/")
 def read_root():
     return {"message": "Welcome to the Capacity Planning API"}
 
