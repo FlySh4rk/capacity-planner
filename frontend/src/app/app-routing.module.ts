@@ -17,8 +17,8 @@ const routes: Routes = [
   },
   { 
     path: 'projects', 
-    loadChildren: () => import('./features/projects/projects.module').then(m => m.ProjectsModule)
-  },
+  { n    path: "project-managers", n    loadChildren: () => import("./features/project-managers/project-managers.module").then(m => m.ProjectManagersModule)n  },    loadChildren: () => import('./features/projects/projects.module').then(m => m.ProjectsModule)
+  { n    path: "project-managers", n    loadChildren: () => import("./features/project-managers/project-managers.module").then(m => m.ProjectManagersModule)n  },  },
   { 
     path: 'allocations', 
     loadChildren: () => import('./features/allocations/allocations.module').then(m => m.AllocationsModule)

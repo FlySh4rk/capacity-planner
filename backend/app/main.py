@@ -26,13 +26,13 @@ app.add_middleware(
 
 # Include routers
 app.include_router(skills_router)
-app.include_router(developers_router)
-app.include_router(projects_router)
-app.include_router(project_managers_router)
-app.include_router(allocations_router)
-app.include_router(reports_router)
-
-@app.get("/")
+app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(developers_router)
+app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(projects_router)
+app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(project_managers_router)
+app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(allocations_router)
+app.include_router(project_managers.router)    app.include_router(project_managers.router)app.include_router(reports_router)
+app.include_router(project_managers.router)    app.include_router(project_managers.router)
+app.include_router(project_managers.router)@app.get("/")
 def read_root():
     return {"message": "Welcome to the Capacity Planning API"}
 
