@@ -23,7 +23,7 @@ class DeveloperUpdate(BaseModel):
 class AllocationInfo(BaseModel):
     id: int
     project_id: int
-    project_name: str = ""
+    project_name: str
     start_date: datetime
     end_date: datetime
     allocation_percentage: float

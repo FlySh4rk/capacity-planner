@@ -37,3 +37,37 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: #999999;
 }
+
+/* Forza le icone nelle colonne di azioni a essere affiancate */
+.mat-cell button {
+  display: inline-flex !important;
+  margin-right: 4px !important;
+  vertical-align: middle !important;
+}
+
+/* Forza le icone nelle colonne di azioni a essere affiancate */
+td.mat-cell:last-of-type {
+  white-space: nowrap !important;
+}
+td.mat-cell:last-of-type button {
+  display: inline-block !important;
+  margin: 0 4px !important;
+}
+
+
+/* Stile forzato per le icone nelle colonne di azioni */
+.mat-column-actions button.mat-icon-button {
+  width: auto !important;
+  height: auto !important;
+  line-height: normal !important;
+  margin: 0 3px !important;
+  padding: 5px !important;
+  display: inline-block !important;
+}
+
+.mat-column-actions {
+  white-space: nowrap !important;
+  width: auto !important;
+  min-width: 120px !important;
+}
+

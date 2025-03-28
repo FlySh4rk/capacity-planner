@@ -6,7 +6,6 @@ from app.database import Base, engine
 from app.routers.skills import router as skills_router
 from app.routers.developers import router as developers_router
 from app.routers.projects import router as projects_router
-from app.routers.project_managers import router as project_managers_router
 from app.routers.allocations import router as allocations_router
 from app.routers.reports import router as reports_router
 
@@ -28,7 +27,6 @@ app.add_middleware(
 app.include_router(skills_router)
 app.include_router(developers_router)
 app.include_router(projects_router)
-app.include_router(project_managers_router)
 app.include_router(allocations_router)
 app.include_router(reports_router)
 
